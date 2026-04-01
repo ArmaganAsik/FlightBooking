@@ -1,1 +1,2 @@
 # FlightBooking
+Bu proje, ASP.NET Core ve MongoDB kullanılarak geliştirilmekte olan bir uçuş rezervasyon uygulamasıdır. Kullanıcıdan alınan bilgilerle rezervasyon oluşturma, yolcu ekleme ve temel fiyat hesaplama işlemleri gerçekleştirilmektedir. Projede DTO ve ViewModel yapıları kullanılarak veri akışı düzenli hale getirilmiştir. Uygulama halen geliştirme aşamasındadır ve yeni özellikler eklenmeye devam edilmektedir.
