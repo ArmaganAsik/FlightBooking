@@ -40,7 +40,7 @@ namespace FlightBooking.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBooking(CreateBookingVm createBookingVm)
         {
-            await _bookingService.CreateBooking(createBookingVm.Booking);
+            await _bookingService.CreateBookingAsync(createBookingVm.Booking);
             return RedirectToAction("ListBookings");
         }
 

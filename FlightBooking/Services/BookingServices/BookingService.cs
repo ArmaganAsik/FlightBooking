@@ -19,7 +19,7 @@ namespace FlightBooking.Services.BookingServices
             _flightCollection = database.GetCollection<Flight>(settings.FlightCollectionName);
         }
 
-        public async Task CreateBooking(CreateBookingDto dto)
+        public async Task CreateBookingAsync(CreateBookingDto dto)
         {
             // 🔥 1. Flight çek
             var flight = await _flightCollection

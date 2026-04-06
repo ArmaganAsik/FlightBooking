@@ -1,5 +1,7 @@
 ﻿using FlightBooking.DTOs.FlightDTOs;
+using FlightBooking.DTOs.PassengerDTOs;
 using FlightBooking.Services.FlightServices;
+using FlightBooking.ViewModels.PassengerVMs;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -32,6 +34,18 @@ namespace FlightBooking.Areas.Admin.Controllers
         {
             await _flightService.CreateFlightAsync(createFlightDto);
             return RedirectToAction("ListFlights");
+        }
+
+        public async Task<IActionResult> GetFlightPassengers(string id)
+        {
+            GetFlightByIdDto flight = await _flightService.GetFlightByIdAsync(id);
+            List<PassengerListItemDto> passengers = await _flightService.GetFlightPassengersAsync(id);
+            FlightPassengersVm flightPassengersVm = new FlightPassengersVm
+            {
+                Flight = flight,
+                Passengers = passengers
+            };
+            return View(flightPassengersVm);
         }
     }
 }
