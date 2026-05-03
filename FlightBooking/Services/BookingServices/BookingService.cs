@@ -1,6 +1,9 @@
 ﻿using FlightBooking.DTOs.BookingDTOs;
+using FlightBooking.DTOs.PassengerDTOs;
 using FlightBooking.Entities;
 using FlightBooking.Settings;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 namespace FlightBooking.Services.BookingServices
@@ -39,6 +42,7 @@ namespace FlightBooking.Services.BookingServices
             // 🔥 4. Passenger mapping
             var passengers = dto.Passengers.Select(x => new Passenger
             {
+                PassengerId = ObjectId.GenerateNewId().ToString(), //Army 04.05.2026
                 Name = x.Name,
                 Surname = x.Surname,
                 BirthDate = x.BirthDate,
@@ -48,6 +52,8 @@ namespace FlightBooking.Services.BookingServices
 
             // 🔥 5. Fiyat hesaplama
             var totalPrice = passengerCount * flight.BasePrice;
+
+            var pnr = await GenerateUniquePnrAsync();
 
             // 🔥 6. Booking oluştur
             var booking = new Booking
@@ -61,7 +67,8 @@ namespace FlightBooking.Services.BookingServices
 
                 TotalPrice = totalPrice,
                 BookingDate = DateTime.Now,
-                Status = "Confirmed"
+                Status = "Confirmed",
+                PnrNumber = pnr
             };
 
             await _bookingCollection.InsertOneAsync(booking);
@@ -74,6 +81,45 @@ namespace FlightBooking.Services.BookingServices
             //    x => x.FlightId == dto.FlightId,
             //    update
             //);
+        }
+
+        private async Task<string> GenerateUniquePnrAsync()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            Random rnd = new Random();
+
+            string pnr;
+            bool exists;
+
+            do
+            {
+                pnr = new string(Enumerable.Repeat(chars, 6).Select(s => s[rnd.Next(s.Length)]).ToArray());
+                exists = await _bookingCollection.Find(x => x.PnrNumber == pnr).AnyAsync();
+            } while (exists);
+
+            return pnr;
+        }
+
+        public async Task<GetBookingByIdDto> GetBookingByPassengerIdAsync(string passengerId)
+        {
+            Booking booking = await _bookingCollection.Find(b => b.Passengers.Any(p => p.PassengerId == passengerId)).FirstOrDefaultAsync();
+
+            GetBookingByIdDto bookingDto = new GetBookingByIdDto
+            {
+                BookingId = booking.BookingId.ToString(),
+                FlightId = booking.FlightId,
+                PnrNumber = booking.PnrNumber,
+                Passengers = booking.Passengers,
+                ContactName = booking.ContactName,
+                ContactEmail = booking.ContactEmail,
+                ContactPhone = booking.ContactPhone,
+                TotalPrice = booking.TotalPrice,
+                BookingDate = booking.BookingDate,
+                Status = booking.Status,
+                PaymentStatus = booking.PaymentStatus
+            };
+
+            return bookingDto;
         }
     }
 }

@@ -1,12 +1,9 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using FlightBooking.Entities;
 
-namespace FlightBooking.Entities
+namespace FlightBooking.DTOs.BookingDTOs
 {
-    public class Booking
+    public class GetBookingByIdDto
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string BookingId { get; set; }
         public string FlightId { get; set; }
         public string PnrNumber { get; set; }

@@ -44,12 +44,13 @@ namespace FlightBooking.Services.FlightServices
 
             List<PassengerListItemDto> passengers = bookings.SelectMany(y => y.Passengers.Select(p => new PassengerListItemDto
             {
+                PassengerId = p.PassengerId,
                 Name = p.Name,
                 Surname = p.Surname,
                 Email = y.ContactEmail,
                 Gender = p.Gender,
                 PassengerType = p.PassengerType,
-                Pnr = y.BookingId,
+                PnrNumber = y.PnrNumber,
                 Phone = y.ContactPhone,
                 SeatNumber = p.SeatNumber,
                 CheckInStatus = p.CheckInStatus,
