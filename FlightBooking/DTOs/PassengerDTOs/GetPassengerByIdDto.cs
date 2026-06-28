@@ -1,6 +1,6 @@
-﻿namespace FlightBooking.Entities
+﻿namespace FlightBooking.DTOs.PassengerDTOs
 {
-    public class Passenger
+    public class GetPassengerByIdDto
     {
         public string? PassengerId { get; set; }
         public string Name { get; set; }

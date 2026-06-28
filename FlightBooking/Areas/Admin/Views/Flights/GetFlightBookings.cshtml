@@ -1,15 +1,14 @@
-﻿@model FlightPassengersVm
-
+﻿@model FlightBookingsVm
 @{
+    ViewData["Title"] = "GetFlightBookings";
     Layout = "~/Areas/Admin/Views/Layout/AdminLayout.cshtml";
-    ViewData["Title"] = "Uçuş Yolcu Listesi";
 
     @* Stat hesaplamaları *@
-    int totalPassengers = Model?.Passengers.Count ?? 0;
+    int totalPassengers = Model?.Bookings?.SelectMany(b => b.Passengers).Count() ?? 0;
 
-    int checkedIn = Model?.Passengers.Count(p => p.CheckInStatus == "Checked-In") ?? 0;
-    int paid = Model?.Passengers.Count(p => p.PaymentStatus == "Paid") ?? 0;
-    int issued = Model?.Passengers.Count(p => p.TicketStatus == "Issued") ?? 0;
+    int checkedIn = Model?.Bookings?.SelectMany(b => b.Passengers).Count(p => p.IsCheckedIn == true) ?? 0;
+    int paid = Model?.Bookings?.Count(b => b.PaymentStatus == "Paid") ?? 0;
+    int issued = Model?.Bookings?.SelectMany(b => b.Passengers).Count(p => p.TicketStatus == "Issued") ?? 0;
 }
 
 @section Styles {
@@ -598,6 +597,12 @@
                                 @(((DateTime)Model.Flight.DepartureTime).ToString("HH:mm")) →
                                 @(((DateTime)Model.Flight.ArrivalTime).ToString("HH:mm"))
                             </span>
+                            <span style="color:#e2e8f0;">·</span>
+                            <span>
+                                <i class="bi bi-door-open" style="font-size:11px;"></i>
+                                @(Model.Flight.BoardingTime?.ToString("HH:mm") ?? "--:--") →
+                                @(Model.Flight.Gate ?? "---")
+                            </span>
                         </div>
                     </div>
 
@@ -675,7 +680,7 @@
                         <i class="bi bi-credit-card-fill"></i>
                     </div>
                     <div>
-                        <div class="mini-stat-val">@paid / @totalPassengers</div>
+                        @* <div class="mini-stat-val">@paid / @totalPassengers</div> *@
                         <div class="mini-stat-lbl">Ödeme Tamamlandı</div>
                     </div>
                 </div>
@@ -808,24 +813,21 @@
 @section Scripts {
     <script>
         @* Razor'dan JS dizisine veri aktar *@
-        var allPassengers = [
-            @if (Model != null && Model.Passengers.Any())
-            {
-                                foreach (var p in Model.Passengers)
-                            {
-                                            @:{ name: "@p.Name", surname: "@p.Surname",
-                                            @:  email: "@(p.Email ?? "")", phone: "@(p.Phone ?? "")",
-                                            @:  gender: "@(p.Gender ?? "")",
-                                            @:  type: "@(p.PassengerType ?? "")",
-                                            @:  pnr: "@(p.PnrNumber ?? "")",
-                                            @:  passengerId: "@(p.PassengerId ?? "")",
-                                            @:  seat: "@(p.SeatNumber ?? "—")",
-                                            @:  checkin: "@(p.CheckInStatus ?? "Not Checked")",
-                                            @:  payment: "@(p.PaymentStatus ?? "Pending")",
-                                            @:  ticket: "@(p.TicketStatus ?? "Not Issued")" },
-                            }
-            }
-        ];
+        var allPassengers = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+            Model?.Bookings?.SelectMany(b => b.Passengers.Select(p => new {
+                name        = p.Name,
+                surname     = p.Surname,
+                gender      = p.Gender ?? "",
+                type        = p.PassengerType ?? "",
+                pnr         = b.PnrNumber ?? "",
+                passengerId = p.PassengerId ?? "",
+                seat        = p.SeatNumber ?? "—",
+                checkin     = p.IsCheckedIn == true ? "Checked-In" : "Not Checked",
+                payment     = b.PaymentStatus ?? "Pending",
+                ticket      = p.TicketStatus ?? "Not Issued",
+                phone       = b.ContactPhone ?? "-"
+            })) ?? Enumerable.Empty<object>()
+        ));
 
         var filtered    = allPassengers.slice();
         var currentPage = 1;

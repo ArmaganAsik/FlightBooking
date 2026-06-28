@@ -1,4 +1,4 @@
-﻿@model CreateCheckInVm
+﻿@model CheckInDataDto
 @{
     Layout = "~/Areas/Admin/Views/Layout/AdminLayout.cshtml";
     ViewData["Title"] = "Check-In";
@@ -611,15 +611,15 @@
                     </div>
                     <div class="ci-meta-item">
                         <span class="ci-meta-key">Yolcu</span>
-                        <span class="ci-meta-val">@ViewBag.PassengerName</span>
+                        <span class="ci-meta-val">@Model.Passenger.Name @Model.Passenger.Surname</span>
                     </div>
                     <div class="ci-meta-item">
                         <span class="ci-meta-key">PNR</span>
-                        <span class="ci-meta-val" style="font-family:monospace;letter-spacing:.8px;">@ViewBag.Pnr</span>
+                        <span class="ci-meta-val" style="font-family:monospace;letter-spacing:.8px;">@Model.PnrNumber</span>
                     </div>
                     <div class="ci-meta-item">
-                        <span class="ci-meta-key">Kapı</span>
-                        <span class="ci-meta-val">@(ViewBag.Gate ?? "—")</span>
+                        <span class="ci-meta-key">Biniş/Kapı</span>
+                        <span class="ci-meta-val">@(Model.Flight.BoardingTime?.ToString("HH:mm") ?? "--:--") → @(Model.Flight.Gate ?? "---")</span>
                     </div>
                 </div>
             </div>
@@ -686,6 +686,7 @@
                                     Kabin Bagajı
                                     <span style="font-size:11px;color:#94a3b8;font-weight:400;">(uçağa alınabilir)</span>
                                 </div>
+
                                 <div class="baggage-cards">
                                     <label class="baggage-card selected" id="cabin-free" onclick="selectBaggage('cabin','free',0)">
                                         <input type="radio" name="cabin_bag" />
@@ -701,7 +702,7 @@
                                         <div class="bc-icon">💼</div>
                                         <div class="bc-name">Kabin Valizi (S)</div>
                                         <div class="bc-sub">Maks. 55×40×20 cm · 8 kg</div>
-                                        <div class="bc-price">+ 80 @ViewBag.Currency</div>
+                                        <div class="bc-price">+ 80 @Model.Flight.Currency</div>
                                     </label>
                                     <label class="baggage-card" id="cabin-large" onclick="selectBaggage('cabin','large',120)">
                                         <input type="radio" name="cabin_bag" />
@@ -709,7 +710,7 @@
                                         <div class="bc-icon">🧳</div>
                                         <div class="bc-name">Kabin Valizi (L)</div>
                                         <div class="bc-sub">Maks. 55×40×25 cm · 10 kg</div>
-                                        <div class="bc-price">+ 120 @ViewBag.Currency</div>
+                                        <div class="bc-price">+ 120 @Model.Flight.Currency</div>
                                     </label>
                                 </div>
                             </div>
@@ -732,10 +733,10 @@
                                            oninput="updateHoldSlider(this.value)" />
                                     <div class="kg-ticks">
                                         <span class="kg-tick">0 kg<br><span style="color:#16a34a;font-size:9px;">Ücretsiz</span></span>
-                                        <span class="kg-tick">8 kg<br><span style="font-size:9px;">100 @ViewBag.Currency</span></span>
-                                        <span class="kg-tick">16 kg<br><span style="font-size:9px;">180 @ViewBag.Currency</span></span>
-                                        <span class="kg-tick">24 kg<br><span style="font-size:9px;">240 @ViewBag.Currency</span></span>
-                                        <span class="kg-tick">32 kg<br><span style="font-size:9px;">300 @ViewBag.Currency</span></span>
+                                        <span class="kg-tick">8 kg<br><span style="font-size:9px;">100 @Model.Flight.Currency</span></span>
+                                        <span class="kg-tick">16 kg<br><span style="font-size:9px;">180 @Model.Flight.Currency</span></span>
+                                        <span class="kg-tick">24 kg<br><span style="font-size:9px;">240 @Model.Flight.Currency</span></span>
+                                        <span class="kg-tick">32 kg<br><span style="font-size:9px;">300 @Model.Flight.Currency</span></span>
                                     </div>
                                 </div>
 
@@ -752,30 +753,27 @@
                                     Özel & Fazla Bagaj
                                 </div>
                                 <div class="baggage-cards">
-                                    <label class="baggage-card" id="special-sport" onclick="toggleSpecial('sport',150)">
-                                        <input type="checkbox" />
+                                    <div class="baggage-card" id="special-sport" onclick="toggleSpecial('sport',150)">
                                         <div class="bc-check"><i class="bi bi-check-lg"></i></div>
                                         <div class="bc-icon">🎿</div>
                                         <div class="bc-name">Spor Ekipmanı</div>
                                         <div class="bc-sub">Kayak, sörf, bisiklet vb.</div>
-                                        <div class="bc-price">+ 150 @ViewBag.Currency</div>
-                                    </label>
-                                    <label class="baggage-card" id="special-golf" onclick="toggleSpecial('golf',120)">
-                                        <input type="checkbox" />
+                                        <div class="bc-price">+ 150 @Model.Flight.Currency</div>
+                                    </div>
+                                    <div class="baggage-card" id="special-golf" onclick="toggleSpecial('golf',120)">
                                         <div class="bc-check"><i class="bi bi-check-lg"></i></div>
                                         <div class="bc-icon">⛳</div>
                                         <div class="bc-name">Golf Ekipmanı</div>
                                         <div class="bc-sub">Golf çantası + aksesuarlar</div>
-                                        <div class="bc-price">+ 120 @ViewBag.Currency</div>
-                                    </label>
-                                    <label class="baggage-card" id="special-pet" onclick="toggleSpecial('pet',200)">
-                                        <input type="checkbox" />
+                                        <div class="bc-price">+ 120 @Model.Flight.Currency</div>
+                                    </div>
+                                    <div class="baggage-card" id="special-pet" onclick="toggleSpecial('pet',200)">
                                         <div class="bc-check"><i class="bi bi-check-lg"></i></div>
                                         <div class="bc-icon">🐾</div>
                                         <div class="bc-name">Evcil Hayvan</div>
                                         <div class="bc-sub">Kabin ya da ambar taşımacılık</div>
-                                        <div class="bc-price">+ 200 @ViewBag.Currency</div>
-                                    </label>
+                                        <div class="bc-price">+ 200 @Model.Flight.Currency</div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -943,12 +941,12 @@
                         <div class="ci-side-body">
                             <div class="pr-row">
                                 <span class="pr-lbl">Bilet</span>
-                                <span class="pr-val">@ViewBag.BasePrice @ViewBag.Currency</span>
+                                <span class="pr-val">@Model.Flight.BasePrice @Model.Flight.Currency</span>
                             </div>
                             <div id="priceBreakdown"></div>
                             <div class="pr-total">
                                 <span class="pr-total-lbl">Toplam</span>
-                                <span class="pr-total-val" id="totalPrice">@ViewBag.BasePrice @ViewBag.Currency</span>
+                                <span class="pr-total-val" id="totalPrice">@Model.Flight.BasePrice @Model.Flight.Currency</span>
                             </div>
                         </div>
                     </div>
@@ -1051,7 +1049,7 @@
             <div class="bp-grid">
                 <div class="bp-item">
                     <div class="bp-item-key">Yolcu</div>
-                    <div class="bp-item-val">@ViewBag.PassengerName</div>
+                    <div class="bp-item-val">@Model.Passenger.Name @Model.Passenger.Surname</div>
                 </div>
                 <div class="bp-item">
                     <div class="bp-item-key">Koltuk</div>
@@ -1065,7 +1063,7 @@
                 </div>
                 <div class="bp-item">
                     <div class="bp-item-key">Kapı</div>
-                    <div class="bp-item-val">@(ViewBag.Gate ?? "—")</div>
+                    <div class="bp-item-val">@(Model.Flight.Gate ?? "—")</div>
                 </div>
                 <div class="bp-item">
                     <div class="bp-item-key">Toplam</div>
@@ -1081,7 +1079,7 @@
 
             <div class="bp-barcode" id="barcodeArea">
                 <div class="bp-barcode-bars" id="barcodeBars"></div>
-                <div class="bp-pnr">@ViewBag.Pnr</div>
+                <div class="bp-pnr">@Model.PnrNumber</div>
             </div>
         </div>
 
@@ -1103,8 +1101,8 @@
     <script>
 
         /* ── Config ──────────────────────────────────────────── */
-        var BASE_PRICE = parseFloat('@(ViewBag.BasePrice ?? 0)') || 0;
-        var CURRENCY   = '@(ViewBag.Currency ?? "₺")';
+        var BASE_PRICE = parseFloat('@Model.Flight.BasePrice.ToString(System.Globalization.CultureInfo.InvariantCulture)') || 0;
+        var CURRENCY   = '@(Model.Flight.Currency ?? "₺")';
         var ROWS = 20;
         var COLS = ['A','B','C','D','E','F'];
 
@@ -1402,21 +1400,21 @@
         /* ══════════════════════════════════════════════════════
            EK HİZMETLER
         ══════════════════════════════════════════════════════ */
+
         function buildExtras() {
             document.getElementById('extrasGrid').innerHTML = extras.map(function(e) {
                 var freeTag = e.price === 0
                     ? '<div class="ec-price" style="color:#16a34a;">Ücretsiz</div>'
                     : '<div class="ec-price">+ ' + e.price + ' ' + CURRENCY + '</div>';
 
-                return '<label class="extra-card' + (selectedExtras.indexOf(e.id) !== -1 ? ' selected' : '') + '"' +
+                return '<div class="extra-card' + (selectedExtras.indexOf(e.id) !== -1 ? ' selected' : '') + '"' +
                     ' id="ex-' + e.id + '" onclick="toggleExtra(\'' + e.id + '\',' + e.price + ')">' +
-                    '<input type="checkbox" />' +
                     '<div class="ec-check"><i class="bi bi-check-lg"></i></div>' +
                     '<div class="ec-ico" style="background:' + e.bg + ';color:' + e.fg + ';"><i class="bi ' + e.icon + '"></i></div>' +
                     '<div class="ec-name">' + e.name + '</div>' +
                     '<div class="ec-desc">' + e.desc + '</div>' +
                     freeTag +
-                '</label>';
+                '</div>';
             }).join('');
         }
 
@@ -1526,13 +1524,80 @@
             }
 
             var total = updatePrice();
-            document.getElementById('modalSeat').textContent  = selectedSeat;
-            document.getElementById('modalTotal').textContent = total + ' ' + CURRENCY;
 
-            /* Barkod animasyonu */
-            generateBarcode();
+            var checkInExtras = [];
 
-            document.getElementById('ciModal').classList.add('open');
+            // Kabin bagajı
+            if (cabinChoice.price > 0) {
+                checkInExtras.push({
+                    ExtraType: 'cabin_baggage',
+                    ExtraName: cabinChoice.name,
+                    Price: cabinChoice.price
+                });
+            }
+
+            // Ambar bagajı
+            if (holdKg > 0) {
+                checkInExtras.push({
+                    ExtraType: 'hold_baggage',
+                    ExtraName: holdKg + ' kg Ambar Bagaj',
+                    Price: holdPrice
+                });
+            }
+
+            // Özel bagaj
+            Object.keys(specialBags).forEach(function(k) {
+                var names = { sport: 'Spor Ekipmanı', golf: 'Golf Ekipmanı', pet: 'Evcil Hayvan' };
+                checkInExtras.push({
+                    ExtraType: 'special_baggage',
+                    ExtraName: names[k],
+                    Price: specialBags[k]
+                });
+            });
+
+            // Yemek
+            if (selectedMeal) {
+                var mealObj = meals.find(function(m){ return m.id === selectedMeal; });
+                checkInExtras.push({
+                    ExtraType: 'meal',
+                    ExtraName: mealObj.name,
+                    Price: mealPrice
+                });
+            }
+
+            // Ekstra hizmetler
+            selectedExtras.forEach(function(id) {
+                var ex = extras.find(function(e){ return e.id === id; });
+                checkInExtras.push({
+                    ExtraType: ex.id,
+                    ExtraName: ex.name,
+                    Price: ex.price
+                });
+            });
+
+            var dto = {
+                PassengerId:     '@Model.Passenger.PassengerId',
+                FlightId:        '@Model.Flight.FlightId',
+                PnrNumber:       '@Model.PnrNumber',
+                SeatNumber:      selectedSeat,
+                CheckInExtras:   checkInExtras,
+                ExtraTotalPrice: total - BASE_PRICE
+            };
+
+            fetch('/Admin/CheckIn/Index', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dto)
+            }).then(function(response) {
+                if (response.ok) {
+                    document.getElementById('modalSeat').textContent  = selectedSeat;
+                    document.getElementById('modalTotal').textContent = total + ' ' + CURRENCY;
+                    generateBarcode();
+                    document.getElementById('ciModal').classList.add('open');
+                } else {
+                    alert('Check-in sırasında bir hata oluştu.');
+                }
+            });
         }
 
         function generateBarcode() {
@@ -1558,6 +1623,7 @@
 
         function closeModal() {
             document.getElementById('ciModal').classList.remove('open');
+            window.location.href = '/Admin/Flights/GetFlightPassengers/' + '@Model.Flight.FlightId';
         }
 
         document.getElementById('ciModal').addEventListener('click', function(e) {

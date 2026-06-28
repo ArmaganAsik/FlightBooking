@@ -17,5 +17,7 @@
         public decimal BasePrice { get; set; }
         public string Currency { get; set; }
         public string Status { get; set; }
+        public string? Gate { get; set; }
+        public DateTime? BoardingTime { get; set; }
     }
 }

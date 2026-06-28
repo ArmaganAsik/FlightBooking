@@ -1,8 +1,11 @@
 ﻿using FlightBooking.DTOs.BookingDTOs;
+using FlightBooking.DTOs.CheckInDTOs;
 using FlightBooking.DTOs.FlightDTOs;
 using FlightBooking.Services.BookingServices;
+using FlightBooking.Services.CheckInServices;
 using FlightBooking.Services.FlightServices;
 using FlightBooking.ViewModels.CheckInVMs;
+using Microsoft.AspNetCore.DataProtection.XmlEncryption;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightBooking.Areas.Admin.Controllers
@@ -10,24 +13,26 @@ namespace FlightBooking.Areas.Admin.Controllers
     [Area("Admin")]
     public class CheckInController : Controller
     {
-        private readonly IFlightService _flightService;
-        private readonly IBookingService _bookingService;
+        private readonly ICheckInService _checkInService;
 
-        public CheckInController(IFlightService flightService, IBookingService bookingService)
+        public CheckInController(ICheckInService checkInService)
         {
-            _flightService = flightService;
-            _bookingService = bookingService;
+            _checkInService = checkInService;
         }
 
         public async Task<IActionResult> Index(string? passengerId)
         {
-            GetBookingByIdDto booking = await _bookingService.GetBookingByPassengerIdAsync(passengerId);
-            GetFlightByIdDto flight = await _flightService.GetFlightByIdAsync(booking.FlightId);
-            CreateCheckInVm createCheckInVm = new CreateCheckInVm
-            {
-                Flight = flight
-            };
-            return View(createCheckInVm);
+            CheckInDataDto checkInDataDto = await _checkInService.GetCheckInDataAsync(passengerId);
+
+            return View(checkInDataDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Index([FromBody] CompleteCheckInDto completeCheckInDto)
+        {
+            await _checkInService.CompleteCheckInAsync(completeCheckInDto);
+            return Ok();
+            //return RedirectToAction("GetFlightPassengers", "Flights", new { id = completeCheckInDto.FlightId });
         }
     }
 }

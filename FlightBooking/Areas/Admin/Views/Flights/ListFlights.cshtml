@@ -858,7 +858,7 @@
                 <h1 class="page-title">Uçuş Yönetimi</h1>
                 <p class="page-desc">Sistemde kayıtlı uçuşları yönetin, düzenleyin veya yenisini ekleyin.</p>
             </div>
-            <a asp-area="Admin" asp-controller="Flights" asp-action="Create" class="fm-btn-new">
+            <a asp-area="Admin" asp-controller="Flights" asp-action="CreateFlight" class="fm-btn-new">
                 <i class="bi bi-plus-lg"></i> Yeni Uçuş
             </a>
         </div>
@@ -954,6 +954,7 @@
                             <th>UÇUŞ NO</th>
                             <th>HAVAYOLU</th>
                             <th>GÜZERGAH</th>
+                            <th>BİNİŞ/KAPI</th>
                             <th>KALKIŞ</th>
                             <th>VARIŞ</th>
                             <th>SÜRE</th>
@@ -1039,11 +1040,19 @@
                                         </div>
                                     </td>
 
+                                    @* Boarding/Gate *@
+                                    <td>
+                                        <div class="cell-time">
+                                            <span class="t-main">@f.BoardingTime?.ToString("HH:mm")</span>
+                                            <span class="t-date">@f.Gate</span>
+                                        </div>
+                                    </td>
+
                                     @* Departure *@
                                     <td>
                                         <div class="cell-time">
                                             <span class="t-main">@f.DepartureTime.ToString("HH:mm")</span>
-                                            <span class="t-date">@f.DepartureTime.ToString("dd MMM", new System.Globalization.CultureInfo("tr-TR"))</span>
+                                            <span class="t-date">@f.DepartureTime.ToString("dd MMM yyyy", new System.Globalization.CultureInfo("tr-TR"))</span>
                                         </div>
                                     </td>
 
@@ -1051,7 +1060,7 @@
                                     <td>
                                         <div class="cell-time">
                                             <span class="t-main">@f.ArrivalTime.ToString("HH:mm")</span>
-                                            <span class="t-date">@f.ArrivalTime.ToString("dd MMM", new System.Globalization.CultureInfo("tr-TR"))</span>
+                                            <span class="t-date">@f.ArrivalTime.ToString("dd MMM yyyy", new System.Globalization.CultureInfo("tr-TR"))</span>
                                         </div>
                                     </td>
 
@@ -1099,7 +1108,7 @@
                                         <div class="cell-actions">
                                             <a asp-area="Admin"
                                                asp-controller="Flights"
-                                               asp-action="GetFlightPassengers"
+                                               asp-action="GetFlightBookings"
                                                asp-route-id="@f.FlightId"
                                                class="act act-view">
                                                 <i class="bi bi-eye-fill"></i>

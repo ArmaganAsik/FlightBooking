@@ -1,7 +1,8 @@
-﻿using FlightBooking.DTOs.FlightDTOs;
+﻿using FlightBooking.DTOs.BookingDTOs;
+using FlightBooking.DTOs.FlightDTOs;
 using FlightBooking.DTOs.PassengerDTOs;
 using FlightBooking.Services.FlightServices;
-using FlightBooking.ViewModels.PassengerVMs;
+using FlightBooking.ViewModels.FlightVMs;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -32,20 +33,21 @@ namespace FlightBooking.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateFlight(CreateFlightDto createFlightDto)
         {
+            createFlightDto.BoardingTime = createFlightDto.DepartureTime.Date.Add(createFlightDto.BoardingTime.Value.TimeOfDay);
             await _flightService.CreateFlightAsync(createFlightDto);
             return RedirectToAction("ListFlights");
         }
 
-        public async Task<IActionResult> GetFlightPassengers(string id)
+        public async Task<IActionResult> GetFlightBookings(string id)
         {
             GetFlightByIdDto flight = await _flightService.GetFlightByIdAsync(id);
-            List<PassengerListItemDto> passengers = await _flightService.GetFlightPassengersAsync(id);
-            FlightPassengersVm flightPassengersVm = new FlightPassengersVm
+            List<ResultBookingDto> bookings = await _flightService.GetFlightBookingsAsync(id);
+            FlightBookingsVm flightBookingsVm = new FlightBookingsVm
             {
                 Flight = flight,
-                Passengers = passengers
+                Bookings = bookings
             };
-            return View(flightPassengersVm);
+            return View(flightBookingsVm);
         }
     }
 }

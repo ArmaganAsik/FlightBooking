@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FlightBooking.DTOs.BookingDTOs;
 using FlightBooking.DTOs.FlightDTOs;
 using FlightBooking.Entities;
 
@@ -12,6 +13,8 @@ namespace FlightBooking.Mapping
             CreateMap<Flight, GetFlightByIdDto>().ReverseMap();
             CreateMap<Flight, UpdateFlightDto>().ReverseMap();
             CreateMap<Flight, ResultFlightDto>().ReverseMap();
+
+            CreateMap<Passenger, GetFlightByIdDto>().ReverseMap();
         }
     }
 }

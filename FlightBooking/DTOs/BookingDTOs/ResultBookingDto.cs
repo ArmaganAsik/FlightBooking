@@ -2,7 +2,7 @@
 
 namespace FlightBooking.DTOs.BookingDTOs
 {
-    public class GetBookingByIdDto
+    public class ResultBookingDto
     {
         public string BookingId { get; set; }
         public string FlightId { get; set; }

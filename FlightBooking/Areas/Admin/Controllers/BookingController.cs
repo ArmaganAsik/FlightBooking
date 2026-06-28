@@ -25,7 +25,7 @@ namespace FlightBooking.Areas.Admin.Controllers
         {
             GetFlightByIdDto flightByIdDto = await _flightService.GetFlightByIdAsync(id);
 
-            CreateBookingVm createBookingVm = new CreateBookingVm
+            CreateFlightBookingVm createFlightBookingVm = new CreateFlightBookingVm
             {
                 Flight = flightByIdDto,
                 Booking = new CreateBookingDto
@@ -34,13 +34,13 @@ namespace FlightBooking.Areas.Admin.Controllers
                 }
             };
 
-            return View(createBookingVm);
+            return View(createFlightBookingVm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBooking(CreateBookingVm createBookingVm)
+        public async Task<IActionResult> CreateBooking(CreateFlightBookingVm createFlightBookingVm)
         {
-            await _bookingService.CreateBookingAsync(createBookingVm.Booking);
+            await _bookingService.CreateBookingAsync(createFlightBookingVm.Booking);
             return RedirectToAction("ListBookings");
         }
 

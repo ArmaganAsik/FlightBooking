@@ -1,4 +1,6 @@
 ﻿using FlightBooking.DTOs.BookingDTOs;
+using FlightBooking.DTOs.CheckInDTOs;
+using FlightBooking.DTOs.FlightDTOs;
 using FlightBooking.DTOs.PassengerDTOs;
 using FlightBooking.Entities;
 using FlightBooking.Settings;
@@ -98,28 +100,6 @@ namespace FlightBooking.Services.BookingServices
             } while (exists);
 
             return pnr;
-        }
-
-        public async Task<GetBookingByIdDto> GetBookingByPassengerIdAsync(string passengerId)
-        {
-            Booking booking = await _bookingCollection.Find(b => b.Passengers.Any(p => p.PassengerId == passengerId)).FirstOrDefaultAsync();
-
-            GetBookingByIdDto bookingDto = new GetBookingByIdDto
-            {
-                BookingId = booking.BookingId.ToString(),
-                FlightId = booking.FlightId,
-                PnrNumber = booking.PnrNumber,
-                Passengers = booking.Passengers,
-                ContactName = booking.ContactName,
-                ContactEmail = booking.ContactEmail,
-                ContactPhone = booking.ContactPhone,
-                TotalPrice = booking.TotalPrice,
-                BookingDate = booking.BookingDate,
-                Status = booking.Status,
-                PaymentStatus = booking.PaymentStatus
-            };
-
-            return bookingDto;
         }
     }
 }
