@@ -1,6 +1,9 @@
 using FlightBooking.Services.BookingServices;
 using FlightBooking.Services.CheckInServices;
 using FlightBooking.Services.FlightServices;
+using FlightBooking.Services.MachineLearningServices.FlightDataServices;
+using FlightBooking.Services.MachineLearningServices.NoShowDataServices;
+using FlightBooking.Services.MachineLearningServices.Prediction;
 using FlightBooking.Settings;
 using Microsoft.Extensions.Options;
 using System.Reflection;
@@ -13,6 +16,13 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IFlightService, FlightService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ICheckInService, CheckInService>();
+
+builder.Services.AddSingleton<IFlightMLService, FlightMLService>();
+builder.Services.AddScoped<IFlightDataService, FlightDataService>();
+builder.Services.AddSingleton<IFlightRegressionService, FlightRegressionService>();
+builder.Services.AddScoped<INoShowService, NoShowService>();
+builder.Services.AddScoped<IOverbookingRecommendationService, OverbookingRecommendationService>();
+
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettingsKey"));

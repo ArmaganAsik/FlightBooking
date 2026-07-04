@@ -22,6 +22,7 @@ namespace FlightBooking.Services.FlightServices
             _bookingCollection = database.GetCollection<Booking>(databaseSettings.BookingCollectionName);
             _mapper = mapper;
         }
+
         public async Task CreateFlightAsync(CreateFlightDto createFlightDto)
         {
             Flight value = _mapper.Map<Flight>(createFlightDto);

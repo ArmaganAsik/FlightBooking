@@ -32,7 +32,6 @@ namespace FlightBooking.Areas.Admin.Controllers
         {
             await _checkInService.CompleteCheckInAsync(completeCheckInDto);
             return Ok();
-            //return RedirectToAction("GetFlightPassengers", "Flights", new { id = completeCheckInDto.FlightId });
         }
     }
 }

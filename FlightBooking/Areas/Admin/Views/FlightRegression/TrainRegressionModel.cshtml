@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "TrainRegressionModel";
+    Layout = "~/Areas/Admin/Views/Layout/AdminLayout.cshtml";
+}
+
+<main class="main-content" id="main-content">
+    <div class="page-header">
+        <h1>Train Regression Model</h1>
+    </div>
+
+    <div class="card">
+        @ViewBag.Message
+    </div>
+    <div class="mt-3">
+        <a asp-area="Admin" asp-controller="FlightRegression" asp-action="January2027Forecast" class="btn btn-primary">
+            <i class="bi bi-bar-chart"></i> Tahmin Listesi
+        </a>
+    </div>
+</main>

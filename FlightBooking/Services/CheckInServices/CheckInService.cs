@@ -20,8 +20,8 @@ namespace FlightBooking.Services.CheckInServices
 
         public CheckInService(IDatabaseSettings settings, IMapper mapper)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
+            MongoClient client = new MongoClient(settings.ConnectionString);
+            IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
 
             _bookingCollection = database.GetCollection<Booking>(settings.BookingCollectionName);
             _checkInCollection = database.GetCollection<CheckIn>(settings.CheckInCollectionName);
