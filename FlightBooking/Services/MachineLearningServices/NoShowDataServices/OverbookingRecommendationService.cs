@@ -72,10 +72,10 @@ namespace FlightBooking.Services.MachineLearningServices.NoShowDataServices
 
         public async Task<List<OverbookingForecastResultDto>> PredictJanuary2027Async()
         {
-            var historicalData = await _noShowCollection.Find(_ => true).ToListAsync();
+            List<NoShowHistory> historicalData = await _noShowCollection.Find(_ => true).ToListAsync();
 
             // ML Training Data
-            var trainingData = historicalData.Select(x => new NoShowPredictionDataDto
+            List<NoShowPredictionDataDto> trainingData = historicalData.Select(x => new NoShowPredictionDataDto
             {
                 Month = DateTime.Parse(x.FlightDate).Month,
                 DayOfWeek = (float)DateTime.Parse(x.FlightDate).DayOfWeek,
@@ -108,18 +108,18 @@ namespace FlightBooking.Services.MachineLearningServices.NoShowDataServices
 
             var predictionEngine = _mlContext.Model.CreatePredictionEngine<NoShowPredictionDataDto, NoShowPredictionResultDto>(model);
 
-            var results = new List<OverbookingForecastResultDto>();
+            List<OverbookingForecastResultDto> results = new List<OverbookingForecastResultDto>();
 
             // Gerçek slot template'leri DB’den alınır
-            var slotTemplates = historicalData.GroupBy(x => x.FlightSlot).Select(g => g.First()).ToList();
+            List<NoShowHistory> slotTemplates = historicalData.GroupBy(x => x.FlightSlot).Select(g => g.First()).ToList();
 
             for (int day = 1; day <= 31; day++)
             {
-                var date = new DateTime(2027, 1, day);
+                DateTime date = new DateTime(2027, 1, day);
 
-                foreach (var slot in slotTemplates)
+                foreach (NoShowHistory slot in slotTemplates)
                 {
-                    var sample = new NoShowPredictionDataDto
+                    NoShowPredictionDataDto sample = new NoShowPredictionDataDto
                     {
                         Month = 1,
                         DayOfWeek = (float)date.DayOfWeek,
@@ -134,18 +134,18 @@ namespace FlightBooking.Services.MachineLearningServices.NoShowDataServices
                         CancelledPassenger = 1
                     };
 
-                    var prediction = predictionEngine.Predict(sample);
-                    var predictedNoShow = (int)Math.Round(prediction.Score);
+                    NoShowPredictionResultDto prediction = predictionEngine.Predict(sample);
+                    int predictedNoShow = (int)Math.Round(prediction.Score);
 
                     // Negatif prediction koruması
                     if (predictedNoShow < 0)
                         predictedNoShow = 0;
 
-                    var recommendedMaxSale = slot.Capacity + predictedNoShow;
+                    int recommendedMaxSale = slot.Capacity + predictedNoShow;
 
-                    var riskLevel = predictedNoShow >= 15 ? "High" : predictedNoShow >= 10 ? "Medium" : "Low";
+                    string riskLevel = predictedNoShow >= 15 ? "High" : predictedNoShow >= 10 ? "Medium" : "Low";
 
-                    var estimatedRevenue = predictedNoShow * 120;
+                    int estimatedRevenue = predictedNoShow * 120;
 
                     results.Add(
                         new OverbookingForecastResultDto

@@ -20,16 +20,16 @@ namespace FlightBooking.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var flights =
+            List<NoShowHistory> flights =
                 await _noShowService
                     .GetAllAsync();
 
-            var recommendations =
+            List<OverbookingRecommendationResultDto> recommendations =
                 new List<OverbookingRecommendationResultDto>();
 
             foreach (var flight in flights)
             {
-                var recommendation =
+                OverbookingRecommendationResultDto recommendation =
                     await _overbookingRecommendationService
                         .GenerateRecommendationAsync(
                             flightDate:
@@ -47,7 +47,7 @@ namespace FlightBooking.Areas.Admin.Controllers
                 recommendations.Add(recommendation);
             }
 
-            var dto = new OverbookingDashboardDto
+            OverbookingDashboardDto dto = new OverbookingDashboardDto
             {
                 Recommendations = recommendations,
 
@@ -97,7 +97,7 @@ namespace FlightBooking.Areas.Admin.Controllers
 
         public async Task<IActionResult> PredictionJan27()
         {
-            var values = await _overbookingRecommendationService.PredictJanuary2027Async();
+            List<OverbookingForecastResultDto> values = await _overbookingRecommendationService.PredictJanuary2027Async();
             return View(values);
         }
     }

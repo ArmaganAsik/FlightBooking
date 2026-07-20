@@ -1,3 +1,10 @@
+using FlightBooking.AIAgentServices.CityDetectorServices;
+using FlightBooking.AIAgentServices.IntentDetectorServices;
+using FlightBooking.AIAgentServices.OpenAIServices;
+using FlightBooking.AIAgentServices.PromptBuilderServices;
+using FlightBooking.AIAgentServices.TravelAgentServices;
+using FlightBooking.AIAgentSettings;
+using FlightBooking.AIAgentTools.WeatherTool;
 using FlightBooking.Services.BookingServices;
 using FlightBooking.Services.CheckInServices;
 using FlightBooking.Services.FlightServices;
@@ -16,12 +23,17 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IFlightService, FlightService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ICheckInService, CheckInService>();
-
 builder.Services.AddSingleton<IFlightMLService, FlightMLService>();
 builder.Services.AddScoped<IFlightDataService, FlightDataService>();
 builder.Services.AddSingleton<IFlightRegressionService, FlightRegressionService>();
 builder.Services.AddScoped<INoShowService, NoShowService>();
 builder.Services.AddScoped<IOverbookingRecommendationService, OverbookingRecommendationService>();
+builder.Services.AddScoped<ITravelAgentService, TravelAgentService>();
+builder.Services.AddScoped<IOpenAIService, OpenAIService>();
+builder.Services.AddScoped<ITravelPromptBuilderService, TravelPromptBuilderService>();
+builder.Services.AddScoped<ITravelIntentDetectorService, TravelIntentDetectorService>();
+builder.Services.AddScoped<IWeatherTool, WeatherTool>();
+builder.Services.AddHttpClient<ICityExtractorService, CityExtractorService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -30,6 +42,9 @@ builder.Services.AddScoped<IDatabaseSettings>(sp =>
 {
     return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
 });
+
+builder.Services.Configure<OpenAISettings>(builder.Configuration.GetSection("OpenAI"));
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
