@@ -1,4 +1,5 @@
 using FlightBooking.AIAgentServices.CityDetectorServices;
+using FlightBooking.AIAgentServices.GooglePlacesServices;
 using FlightBooking.AIAgentServices.IntentDetectorServices;
 using FlightBooking.AIAgentServices.OpenAIServices;
 using FlightBooking.AIAgentServices.PromptBuilderServices;
@@ -34,6 +35,7 @@ builder.Services.AddScoped<ITravelPromptBuilderService, TravelPromptBuilderServi
 builder.Services.AddScoped<ITravelIntentDetectorService, TravelIntentDetectorService>();
 builder.Services.AddScoped<IWeatherTool, WeatherTool>();
 builder.Services.AddHttpClient<ICityExtractorService, CityExtractorService>();
+builder.Services.AddHttpClient<IGooglePlacesService, GooglePlacesService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
