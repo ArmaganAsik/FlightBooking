@@ -1,7 +1,7 @@
-﻿
-@{
-    Layout = null;
+﻿﻿@{
+Layout = null;
 }
+
 
 <!DOCTYPE html>
 <html lang="tr">
@@ -11,15 +11,11 @@
     <meta name="description" content="SkyRoute ile yüzlerce havayolunun uçuşlarını karşılaştır, sana en uygun yolculuğu kolayca bul.">
     <title>SkyRoute — Uçuş Ara, Karşılaştır, Uç</title>
 
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-    <!-- Özel stiller -->
     <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
@@ -30,23 +26,19 @@
     <header>
         <nav class="navbar navbar-expand-lg fixed-top sr-navbar" id="mainNavbar">
             <div class="container">
-                <!-- Logo -->
-                <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="/Flight/Index">
                     <span class="sr-logo-mark" aria-hidden="true">
                         <i class="bi bi-send-fill"></i>
                     </span>
                     <span class="sr-logo-text">Sky<span class="sr-logo-accent">Route</span></span>
                 </a>
 
-                <!-- Mobil hamburger butonu -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
                         aria-controls="mainNav" aria-expanded="false" aria-label="Menüyü aç/kapat">
                     <i class="bi bi-list"></i>
                 </button>
 
-                <!-- Menü içeriği -->
                 <div class="collapse navbar-collapse" id="mainNav">
-                    <!-- Sol / orta menü bağlantıları -->
                     <ul class="navbar-nav mx-lg-auto mb-3 mb-lg-0">
                         <li class="nav-item"><a class="nav-link active" href="#aramaPaneli">Uçuş Ara</a></li>
                         <li class="nav-item"><a class="nav-link" href="#kampanyalar">Kampanyalar</a></li>
@@ -55,9 +47,7 @@
                         <li class="nav-item"><a class="nav-link" href="#footer">Yardım</a></li>
                     </ul>
 
-                    <!-- Sağ taraf: para birimi, dil, giriş -->
                     <div class="d-flex flex-column flex-lg-row align-items-lg-center gap-2">
-                        <!-- Para birimi seçimi -->
                         <select class="form-select form-select-sm sr-mini-select" id="navCurrency" aria-label="Para birimi seçimi">
                             <option value="TRY" selected>TRY ₺</option>
                             <option value="EUR">EUR €</option>
@@ -65,14 +55,12 @@
                             <option value="GBP">GBP £</option>
                         </select>
 
-                        <!-- Dil seçimi -->
                         <select class="form-select form-select-sm sr-mini-select" id="navLang" aria-label="Dil seçimi">
                             <option value="tr" selected>TR</option>
                             <option value="en">EN</option>
                             <option value="de">DE</option>
                         </select>
 
-                        <!-- Giriş yap butonu -->
                         <a href="#" class="btn btn-sr-login btn-sm">
                             <i class="bi bi-person-circle me-1"></i>Giriş Yap
                         </a>
@@ -87,16 +75,13 @@
     ========================================================== -->
     <section class="sr-hero">
         <div id="heroSlider" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="6000">
-            <!-- Gösterge noktaları -->
             <div class="carousel-indicators sr-indicators">
                 <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slayt 1"></button>
                 <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="1" aria-label="Slayt 2"></button>
                 <button type="button" data-bs-target="#heroSlider" data-bs-slide-to="2" aria-label="Slayt 3"></button>
             </div>
 
-            <!-- Slaytlar -->
             <div class="carousel-inner h-100">
-                <!-- Slayt 1 -->
                 <div class="carousel-item active h-100">
                     <div class="sr-slide" style="background-image:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1920&q=80');">
                         <div class="sr-slide-overlay"></div>
@@ -107,7 +92,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Slayt 2 -->
                 <div class="carousel-item h-100">
                     <div class="sr-slide" style="background-image:url('https://images.unsplash.com/photo-1503152394-c571994fd383?auto=format&fit=crop&w=1920&q=80');">
                         <div class="sr-slide-overlay"></div>
@@ -118,7 +102,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Slayt 3 -->
                 <div class="carousel-item h-100">
                     <div class="sr-slide" style="background-image:url('https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&w=1920&q=80');">
                         <div class="sr-slide-overlay"></div>
@@ -131,7 +114,6 @@
                 </div>
             </div>
 
-            <!-- Kontrol butonları -->
             <button class="carousel-control-prev sr-control" type="button" data-bs-target="#heroSlider" data-bs-slide="prev">
                 <span class="sr-control-icon"><i class="bi bi-chevron-left"></i></span>
                 <span class="visually-hidden">Önceki</span>
@@ -143,11 +125,10 @@
         </div>
 
         <!-- =========================================================
-             3. UÇUŞ ARAMA PANELİ (slider üzerine bindirilmiş)
+             3. UÇUŞ ARAMA PANELİ
         ========================================================== -->
         <div class="container">
             <div class="sr-search-panel" id="aramaPaneli">
-                <!-- Seyahat tipi sekmeleri -->
                 <div class="sr-trip-types" role="tablist" aria-label="Seyahat tipi">
                     <input type="radio" class="btn-check" name="tripType" id="tripRound" value="round" checked>
                     <label class="sr-trip-btn" for="tripRound"><i class="bi bi-arrow-left-right me-1"></i>Gidiş-Dönüş</label>
@@ -159,48 +140,39 @@
                     <label class="sr-trip-btn" for="tripMulti"><i class="bi bi-diagram-3 me-1"></i>Çoklu Uçuş</label>
                 </div>
 
-                <!-- Arama formu -->
                 <form id="flightSearchForm" novalidate>
                     <div class="row g-3 align-items-end">
 
-                        <!-- Kalkış + Varış (yön değiştirme butonlu) -->
                         <div class="col-12 col-lg-5">
                             <div class="row g-2 sr-swap-row position-relative">
-                                <!-- Kalkış -->
                                 <div class="col-6 sr-field-wrap">
                                     <label class="sr-label" for="fromInput">Kalkış Noktası</label>
                                     <div class="sr-input-icon">
                                         <i class="bi bi-airplane-engines"></i>
                                         <input type="text" class="form-control sr-input" id="fromInput"
-                                               placeholder="Şehir, havalimanı veya IATA"
-                                               autocomplete="off" value="İstanbul, Türkiye" data-iata="IST">
+                                               placeholder="Şehir adı yazın (örn. Adana)"
+                                               autocomplete="off">
                                     </div>
-                                    <!-- Autocomplete sonuç listesi -->
-                                    <div class="sr-autocomplete" id="fromResults"></div>
                                     <div class="sr-error" id="fromError"></div>
                                 </div>
 
-                                <!-- Varış -->
                                 <div class="col-6 sr-field-wrap">
                                     <label class="sr-label" for="toInput">Varış Noktası</label>
                                     <div class="sr-input-icon">
                                         <i class="bi bi-geo-alt"></i>
                                         <input type="text" class="form-control sr-input" id="toInput"
-                                               placeholder="Şehir, havalimanı veya IATA"
-                                               autocomplete="off" value="Amsterdam, Hollanda" data-iata="AMS">
+                                               placeholder="Şehir adı yazın (örn. Amsterdam)"
+                                               autocomplete="off">
                                     </div>
-                                    <div class="sr-autocomplete" id="toResults"></div>
                                     <div class="sr-error" id="toError"></div>
                                 </div>
 
-                                <!-- Yön değiştirme butonu -->
                                 <button type="button" class="sr-swap-btn" id="swapBtn" aria-label="Kalkış ve varışı değiştir" title="Yerlerini değiştir">
                                     <i class="bi bi-arrow-left-right"></i>
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Gidiş tarihi -->
                         <div class="col-6 col-lg-2 sr-field-wrap">
                             <label class="sr-label" for="departDate">Gidiş Tarihi</label>
                             <div class="sr-input-icon">
@@ -210,7 +182,6 @@
                             <div class="sr-error" id="departError"></div>
                         </div>
 
-                        <!-- Dönüş tarihi -->
                         <div class="col-6 col-lg-2 sr-field-wrap" id="returnWrap">
                             <label class="sr-label" for="returnDate">Dönüş Tarihi</label>
                             <div class="sr-input-icon">
@@ -220,7 +191,6 @@
                             <div class="sr-error" id="returnError"></div>
                         </div>
 
-                        <!-- Yolcu + kabin (dropdown) -->
                         <div class="col-12 col-lg-3 sr-field-wrap">
                             <label class="sr-label" for="passengerToggle">Yolcu ve Kabin</label>
                             <div class="dropdown">
@@ -232,7 +202,6 @@
                                 </button>
 
                                 <div class="dropdown-menu sr-passenger-menu p-3">
-                                    <!-- Yetişkin -->
                                     <div class="sr-pax-row">
                                         <div>
                                             <div class="sr-pax-title">Yetişkin</div>
@@ -244,7 +213,6 @@
                                             <button type="button" class="sr-step-btn" data-type="adult" data-action="inc" aria-label="Yetişkin artır">+</button>
                                         </div>
                                     </div>
-                                    <!-- Çocuk -->
                                     <div class="sr-pax-row">
                                         <div>
                                             <div class="sr-pax-title">Çocuk</div>
@@ -256,7 +224,6 @@
                                             <button type="button" class="sr-step-btn" data-type="child" data-action="inc" aria-label="Çocuk artır">+</button>
                                         </div>
                                     </div>
-                                    <!-- Bebek -->
                                     <div class="sr-pax-row">
                                         <div>
                                             <div class="sr-pax-title">Bebek</div>
@@ -273,7 +240,6 @@
 
                                     <hr class="my-2">
 
-                                    <!-- Kabin sınıfı -->
                                     <label class="sr-label" for="cabinClass">Kabin Sınıfı</label>
                                     <select class="form-select sr-input" id="cabinClass">
                                         <option value="economy" selected>Ekonomi</option>
@@ -285,13 +251,10 @@
                                     <button type="button" class="btn btn-sr-primary w-100 mt-3" id="paxDone">Tamam</button>
                                 </div>
                             </div>
-                            <div class="sr-error" id="passengerError"></div>
                         </div>
 
-                    </div><!-- /row -->
-                    <!-- Alt satır: para birimi, direkt uçuş, arama butonu -->
+                    </div>
                     <div class="row g-3 align-items-end mt-1">
-                        <!-- Para birimi -->
                         <div class="col-6 col-lg-3 sr-field-wrap">
                             <label class="sr-label" for="currencySelect">Para Birimi</label>
                             <div class="sr-input-icon">
@@ -305,7 +268,6 @@
                             </div>
                         </div>
 
-                        <!-- Direkt uçuş switch -->
                         <div class="col-6 col-lg-4 sr-field-wrap">
                             <div class="form-check form-switch sr-switch mt-lg-4">
                                 <input class="form-check-input" type="checkbox" role="switch" id="directOnly">
@@ -313,7 +275,6 @@
                             </div>
                         </div>
 
-                        <!-- Uçuş ara butonu -->
                         <div class="col-12 col-lg-5">
                             <button type="submit" class="btn btn-sr-search w-100" id="searchBtn">
                                 <span class="sr-btn-label">
@@ -343,7 +304,6 @@
 
             <div class="row g-4 sr-routes-row">
                 <!-- Rota kartları JavaScript ile otomatik doldurulacak -->
-                <div class="col-12 col-sm-6 col-lg-4" id="routesContainer"></div>
             </div>
         </div>
     </section>
@@ -403,7 +363,6 @@
             </div>
 
             <div class="row g-4">
-                <!-- Kampanya 1 -->
                 <div class="col-12 col-lg-4">
                     <article class="sr-campaign">
                         <div class="sr-campaign-media" style="background-image:url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=800&q=80');">
@@ -417,7 +376,6 @@
                         </div>
                     </article>
                 </div>
-                <!-- Kampanya 2 -->
                 <div class="col-12 col-lg-4">
                     <article class="sr-campaign">
                         <div class="sr-campaign-media" style="background-image:url('https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=800&q=80');">
@@ -431,7 +389,6 @@
                         </div>
                     </article>
                 </div>
-                <!-- Kampanya 3 -->
                 <div class="col-12 col-lg-4">
                     <article class="sr-campaign">
                         <div class="sr-campaign-media" style="background-image:url('https://images.unsplash.com/photo-1521727857535-28d2047314ac?auto=format&fit=crop&w=800&q=80');">
@@ -540,9 +497,8 @@
     <footer class="sr-footer" id="footer">
         <div class="container">
             <div class="row g-4">
-                <!-- Marka -->
                 <div class="col-12 col-lg-4">
-                    <a class="navbar-brand d-flex align-items-center gap-2 mb-3" href="index.html">
+                    <a class="navbar-brand d-flex align-items-center gap-2 mb-3" href="/Flight/Index">
                         <span class="sr-logo-mark" aria-hidden="true"><i class="bi bi-send-fill"></i></span>
                         <span class="sr-logo-text text-white">Sky<span class="sr-logo-accent">Route</span></span>
                     </a>
@@ -555,7 +511,6 @@
                     </div>
                 </div>
 
-                <!-- Footer bağlantı sütunları — mobilde accordion -->
                 <div class="col-6 col-lg-2">
                     <div class="sr-footer-col">
                         <button class="sr-footer-head" type="button" data-bs-toggle="collapse" data-bs-target="#footCol1" aria-expanded="false">
@@ -615,7 +570,6 @@
 
             <hr class="sr-footer-divider">
 
-            <!-- Alt bar: ödeme yöntemleri + telif -->
             <div class="sr-footer-bottom">
                 <p class="sr-copyright mb-0">© 2026 SkyRoute. Tüm hakları saklıdır.</p>
                 <div class="sr-payments" aria-label="Ödeme yöntemleri">
@@ -628,7 +582,6 @@
         </div>
     </footer>
 
-    <!-- Toast bildirim alanı -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="srToast" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
@@ -638,9 +591,7 @@
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Özel scriptler -->
     <script src="/js/script.js"></script>
 </body>
 </html>

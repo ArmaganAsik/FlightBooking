@@ -6,8 +6,10 @@ using FlightBooking.AIAgentServices.PromptBuilderServices;
 using FlightBooking.AIAgentServices.TravelAgentServices;
 using FlightBooking.AIAgentSettings;
 using FlightBooking.AIAgentTools.WeatherTool;
+using FlightBooking.Services.AirportServices;
 using FlightBooking.Services.BookingServices;
 using FlightBooking.Services.CheckInServices;
+using FlightBooking.Services.FlightSearchServices;
 using FlightBooking.Services.FlightServices;
 using FlightBooking.Services.MachineLearningServices.FlightDataServices;
 using FlightBooking.Services.MachineLearningServices.NoShowDataServices;
@@ -16,7 +18,7 @@ using FlightBooking.Settings;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -36,6 +38,8 @@ builder.Services.AddScoped<ITravelIntentDetectorService, TravelIntentDetectorSer
 builder.Services.AddScoped<IWeatherTool, WeatherTool>();
 builder.Services.AddHttpClient<ICityExtractorService, CityExtractorService>();
 builder.Services.AddHttpClient<IGooglePlacesService, GooglePlacesService>();
+builder.Services.AddHttpClient<IAirPortService, AirportService>();
+builder.Services.AddHttpClient<IFlightSearchService, FlightSearchService>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -48,7 +52,7 @@ builder.Services.AddScoped<IDatabaseSettings>(sp =>
 builder.Services.Configure<OpenAISettings>(builder.Configuration.GetSection("OpenAI"));
 builder.Services.AddHttpClient();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

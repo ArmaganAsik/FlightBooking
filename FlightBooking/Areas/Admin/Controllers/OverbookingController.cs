@@ -27,7 +27,7 @@ namespace FlightBooking.Areas.Admin.Controllers
             List<OverbookingRecommendationResultDto> recommendations =
                 new List<OverbookingRecommendationResultDto>();
 
-            foreach (var flight in flights)
+            foreach (NoShowHistory flight in flights)
             {
                 OverbookingRecommendationResultDto recommendation =
                     await _overbookingRecommendationService
